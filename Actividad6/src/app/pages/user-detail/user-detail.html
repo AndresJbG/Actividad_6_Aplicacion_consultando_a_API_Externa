@@ -1,1 +1,19 @@
-<p>user-detail works!</p>
+<div *ngIf="loading" class="alert alert-info">Cargando...</div>
+<div *ngIf="user" class="card shadow-sm">
+  <div class="row g-0">
+    <div class="col-md-4 p-3">
+      <img [src]="user.image" class="img-fluid rounded"
+           alt="foto"
+           onerror="this.src='https://via.placeholder.com/400x300'">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h4>{{ user.name }}</h4>
+        <p><strong>Usuario:</strong> @{{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <button class="btn btn-secondary" (click)="back()">Volver</button>
+        <a [routerLink]="['/updateuser', user.id]" class="btn btn-primary ms-2">Editar</a>
+      </div>
+    </div>
+  </div>
+</div>
