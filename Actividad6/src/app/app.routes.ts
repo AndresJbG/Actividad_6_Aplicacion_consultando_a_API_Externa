@@ -1,7 +1,8 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { UserDetailComponent } from './pages/user-detail/user-detail.component';
-import { UserFormComponent } from './pages/user-form/user-form.component';
+import { HomeComponent } from './pages/home/home';
+import { UserDetailComponent } from './pages/user-detail/user-detail';
+import { UserFormComponent } from './pages/user-form/user-form';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -9,5 +10,5 @@ export const routes: Routes = [
   { path: 'user/:id', component: UserDetailComponent },
   { path: 'newuser', component: UserFormComponent },
   { path: 'updateuser/:id', component: UserFormComponent },
-  { path: '**', redirectTo: 'home' }
+  { path: '**', redirectTo: 'home' },
 ];

@@ -1,8 +1,8 @@
+// src/main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { appConfig } from './app/app.config';
-import { NavbarComponent } from './app/shared/navbar/navbar.component';
+import { NavbarComponent } from './app/shared/navbar/navbar';
 
 bootstrapApplication(NavbarComponent, {
-  providers: [provideAnimations(), ...appConfig.providers!]
+  providers: [...(appConfig.providers ?? [])],
 }).catch(err => console.error(err));

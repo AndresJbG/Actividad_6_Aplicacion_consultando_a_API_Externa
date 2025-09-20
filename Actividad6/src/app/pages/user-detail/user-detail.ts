@@ -8,8 +8,8 @@ import { User } from '../../core/models/user';
   selector: 'app-user-detail',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './user-detail.component.html',
-  styleUrl: './user-detail.component.css'
+  templateUrl: './user-detail.html',   // <-- nombres REALES de tus archivos
+  styleUrls: ['./user-detail.css']     // <-- plural
 })
 export class UserDetailComponent implements OnInit {
   user?: User;
@@ -22,10 +22,11 @@ export class UserDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = Number(this.route.snapshot.paramMap.get('id')); // <-- sin "value:" ni "name:"
     this.loading = true;
+
     this.usersService.getUser(id).subscribe({
-      next: (data) => {
+      next: (data: User) => {
         this.user = data;
         this.loading = false;
       },
@@ -35,7 +36,7 @@ export class UserDetailComponent implements OnInit {
     });
   }
 
-  back() {
-    this.router.navigate(['/home']);
+  back(): void {
+    this.router.navigate(['/home']); // <-- sin "commands:"
   }
 }
