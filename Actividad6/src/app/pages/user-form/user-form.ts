@@ -1,9 +1,24 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../core/services/users.service';
 import { User } from '../../core/models/users';
+
+type AddressForm = {
+  street: FormControl<string>;
+  city: FormControl<string>;
+};
+
+type UserForm = {
+  name: FormControl<string>;
+  email: FormControl<string>;
+  username: FormControl<string>;
+  phone: FormControl<string>;
+  website: FormControl<string>;
+  image: FormControl<string>;
+  address: FormGroup<AddressForm>;
+};
 
 @Component({
   selector: 'app-user-form',
@@ -21,16 +36,16 @@ export class UserFormComponent implements OnInit {
   isEdit = false;
   id?: number;
 
-  form = this.fb.group({
-    name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    username: ['', Validators.required],
-    phone: [''],
-    website: [''],
-    image: ['', Validators.required],
-    address: this.fb.group({
-      street: [''],
-      city: ['']
+  form: FormGroup<UserForm> = this.fb.group({
+    name: this.fb.control('', { nonNullable: true, validators: [Validators.required] }),
+    email: this.fb.control('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
+    username: this.fb.control('', { nonNullable: true, validators: [Validators.required] }),
+    phone: this.fb.control('', { nonNullable: true }),
+    website: this.fb.control('', { nonNullable: true }),
+    image: this.fb.control('', { nonNullable: true, validators: [Validators.required] }),
+    address: this.fb.group<AddressForm>({
+      street: this.fb.control('', { nonNullable: true }),
+      city: this.fb.control('', { nonNullable: true }),
     })
   });
 
@@ -40,16 +55,15 @@ export class UserFormComponent implements OnInit {
       this.isEdit = true;
       this.id = Number(idParam);
       this.usersSrv.getUser(this.id).subscribe(u => {
-        // precarga del formulario
         const { name, email, username, phone, website, image, address } = u;
         this.form.patchValue({
-          name: name || '',
-          email: email || '',
-          username: username || '',
-          phone: phone || '',
-          website: website || '',
-          image: image || '',
-          address: { street: address?.street || '', city: address?.city || '' }
+          name: name ?? '',
+          email: email ?? '',
+          username: username ?? '',
+          phone: phone ?? '',
+          website: website ?? '',
+          image: image ?? '',
+          address: { street: address?.street ?? '', city: address?.city ?? '' }
         });
       });
     }
@@ -60,16 +74,16 @@ export class UserFormComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    const payload = this.form.value as User;
+    const payload = this.form.getRawValue() as User;
 
     if (this.isEdit && this.id) {
       this.usersSrv.updateUser(this.id, payload).subscribe({
-        next: (res) => { alert('Usuario actualizado (mock ok)'); this.router.navigate(['/user', this.id]); },
+        next: () => { alert('Usuario actualizado (mock ok)'); this.router.navigate(['/user', this.id]); },
         error: () => alert('No se pudo actualizar')
       });
     } else {
       this.usersSrv.createUser(payload).subscribe({
-        next: (res) => { alert('Usuario creado (mock ok)'); this.router.navigate(['/home']); },
+        next: () => { alert('Usuario creado (mock ok)'); this.router.navigate(['/home']); },
         error: () => alert('No se pudo crear')
       });
     }
