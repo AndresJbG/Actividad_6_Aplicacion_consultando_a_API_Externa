@@ -1,33 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UsersService } from '../../core/services/users.service';
-import { User } from '../../core/models/user';
+import { User } from '../../core/models/users';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  // usa los nombres reales de tus archivos:
   templateUrl: './home.html',
-  styleUrls: ['./home.css']
+  styleUrl: './home.css'
 })
 export class HomeComponent implements OnInit {
+  private usersSrv = inject(UsersService);
+  private router = inject(Router);
+
   users: User[] = [];
   loading = false;
 
-  constructor(private usersService: UsersService) {}
-
   ngOnInit(): void {
+    this.fetch();
+  }
+
+  fetch(): void {
     this.loading = true;
-    this.usersService.getUsers().subscribe({
-      next: (data: User[]) => {
-        this.users = data;
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-      }
+    this.usersSrv.getUsers().subscribe({
+      next: (u) => { this.users = u; this.loading = false; },
+      error: () => { this.loading = false; alert('Error cargando usuarios'); }
     });
+  }
+
+  view(id?: number) {
+    if (!id) return;
+    this.router.navigate(['/user', id]);
+  }
+
+  edit(id?: number) {
+    if (!id) return;
+    this.router.navigate(['/updateuser', id]);
+  }
+
+  remove(id?: number) {
+    if (!id) return;
+    if (confirm(`¿Seguro que deseas eliminar el usuario ${id}?`)) {
+      this.usersSrv.deleteUser(id).subscribe({
+        next: () => { alert('Usuario eliminado'); this.fetch(); },
+        error: () => alert('No se pudo eliminar')
+      });
+    }
   }
 }

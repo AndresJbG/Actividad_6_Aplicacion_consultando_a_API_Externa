@@ -1,26 +1,60 @@
-<h3>{{ isEdit ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
+<h2 class="mb-4">{{ isEdit ? 'Actualizar usuario' : 'Nuevo usuario' }}</h2>
 
-<form [formGroup]="form" (ngSubmit)="save()" class="row g-3">
+<form [formGroup]="form" (ngSubmit)="submit()" class="row g-3">
   <div class="col-md-6">
-    <label class="form-label">Nombre *</label>
-    <input type="text" formControlName="name" class="form-control">
+    <label class="form-label">Nombre</label>
+    <input type="text" class="form-control" formControlName="name">
+    <div class="text-danger" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
+      Requerido
+    </div>
   </div>
+
   <div class="col-md-6">
-    <label class="form-label">Username *</label>
-    <input type="text" formControlName="username" class="form-control">
+    <label class="form-label">Usuario</label>
+    <input type="text" class="form-control" formControlName="username">
+    <div class="text-danger" *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
+      Requerido
+    </div>
   </div>
+
   <div class="col-md-6">
-    <label class="form-label">Email *</label>
-    <input type="email" formControlName="email" class="form-control">
+    <label class="form-label">Email</label>
+    <input type="email" class="form-control" formControlName="email">
+    <div class="text-danger" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+      Email válido requerido
+    </div>
   </div>
+
   <div class="col-md-6">
-    <label class="form-label">Imagen URL *</label>
-    <input type="url" formControlName="image" class="form-control">
+    <label class="form-label">Teléfono</label>
+    <input type="text" class="form-control" formControlName="phone">
   </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">
-      {{ isEdit ? 'Actualizar' : 'Guardar' }}
-    </button>
-    <a routerLink="/home" class="btn btn-secondary ms-2">Cancelar</a>
+
+  <div class="col-md-6">
+    <label class="form-label">Website</label>
+    <input type="text" class="form-control" formControlName="website">
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">URL Imagen</label>
+    <input type="text" class="form-control" formControlName="image" placeholder="https://.../foto.jpg">
+    <div class="text-danger" *ngIf="form.get('image')?.touched && form.get('image')?.invalid">
+      Requerido (usa una URL)
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Calle</label>
+    <input type="text" class="form-control" formControlName="street" [formControl]="form.get('address.street')">
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Ciudad</label>
+    <input type="text" class="form-control" [formControl]="form.get('address.city')">
+  </div>
+
+  <div class="col-12 d-flex gap-2">
+    <button class="btn btn-primary" type="submit">{{ isEdit ? 'Actualizar' : 'Guardar' }}</button>
+    <a class="btn btn-secondary" routerLink="/home">Cancelar</a>
   </div>
 </form>

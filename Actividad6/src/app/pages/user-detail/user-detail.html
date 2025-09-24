@@ -1,19 +1,24 @@
-<div *ngIf="loading" class="alert alert-info">Cargando...</div>
-<div *ngIf="user" class="card shadow-sm">
-  <div class="row g-0">
-    <div class="col-md-4 p-3">
-      <img [src]="user.image" class="img-fluid rounded"
-           alt="foto"
-           onerror="this.src='https://via.placeholder.com/400x300'">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h4>{{ user.name }}</h4>
-        <p><strong>Usuario:</strong> @{{ user.username }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <button class="btn btn-secondary" (click)="back()">Volver</button>
-        <a [routerLink]="['/updateuser', user.id]" class="btn btn-primary ms-2">Editar</a>
-      </div>
+<div *ngIf="user" class="row g-4">
+  <div class="col-md-4">
+    <img [src]="user.image || 'https://picsum.photos/500/500?random=' + id" class="img-fluid rounded shadow-sm" alt="avatar">
+  </div>
+  <div class="col-md-8">
+    <h2 class="mb-3">{{ user.name || user.username }}</h2>
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+      <li class="list-group-item"><strong>Usuario:</strong> {{ user.username }}</li>
+      <li class="list-group-item"><strong>Teléfono:</strong> {{ user.phone }}</li>
+      <li class="list-group-item"><strong>Web:</strong> {{ user.website }}</li>
+      <li class="list-group-item" *ngIf="user.address">
+        <strong>Dirección:</strong>
+        {{ user.address?.street }}, {{ user.address?.city }}
+      </li>
+    </ul>
+
+    <div class="mt-4 d-flex gap-2">
+      <button class="btn btn-secondary" (click)="back()">Volver a listado</button>
+      <button class="btn btn-warning" (click)="edit()">Actualizar</button>
+      <button class="btn btn-danger" (click)="remove()">Eliminar</button>
     </div>
   </div>
 </div>

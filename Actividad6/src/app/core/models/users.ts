@@ -1,9 +1,13 @@
 export interface User {
   id?: number;
   name: string;
-  username: string;
   email: string;
-  image: string;
+  username?: string;
   phone?: string;
   website?: string;
+  image?: string;
+  address?: {
+    street?: string;
+    city?: string;
+  };
 }

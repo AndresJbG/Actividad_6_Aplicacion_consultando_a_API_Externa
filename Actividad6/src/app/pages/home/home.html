@@ -1,17 +1,18 @@
-<h3 class="mb-3">Usuarios</h3>
+<h1 class="mb-4">Usuarios</h1>
+
 <div *ngIf="loading" class="alert alert-info">Cargando...</div>
 
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" *ngIf="!loading">
   <div class="col" *ngFor="let u of users">
-    <div class="card h-100 shadow-sm">
-      <img [src]="u.image" class="card-img-top" alt="foto"
-           onerror="this.src='https://via.placeholder.com/300x200'">
+    <div class="card h-100">
+      <img [src]="u.image || 'https://picsum.photos/400/300?random=' + u.id" class="card-img-top" alt="avatar">
       <div class="card-body">
-        <h5 class="card-title">{{ u.name }}</h5>
-        <p class="text-muted">@{{ u.username }}</p>
+        <h5 class="card-title mb-1">{{ u.name || (u.username || ('Usuario ' + u.id)) }}</h5>
+        <p class="text-muted mb-3">{{ u.email }}</p>
         <div class="d-flex gap-2">
-          <a [routerLink]="['/user', u.id]" class="btn btn-sm btn-outline-primary">Ver</a>
-          <a [routerLink]="['/updateuser', u.id]" class="btn btn-sm btn-outline-secondary">Editar</a>
+          <button class="btn btn-outline-primary btn-sm" (click)="view(u.id)">Ver detalle</button>
+          <button class="btn btn-outline-warning btn-sm" (click)="edit(u.id)">Actualizar</button>
+          <button class="btn btn-outline-danger btn-sm" (click)="remove(u.id)">Borrar</button>
         </div>
       </div>
     </div>

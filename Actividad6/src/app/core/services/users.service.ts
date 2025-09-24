@@ -1,31 +1,41 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { User } from '../models/user';
+import { Observable, map } from 'rxjs';
+import { User } from '../models/users';
 
 @Injectable({ providedIn: 'root' })
 export class UsersService {
-  private readonly base = 'https://peticiones.online/users';
-
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+  // La API del enunciado
+  private baseUrl = 'https://peticiones.online/users';
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.base);
+    return this.http.get<any>(this.baseUrl).pipe(
+      map(res => {
+        // La API puede responder como array directo o envuelto
+        if (Array.isArray(res)) return res as User[];
+        if (Array.isArray(res?.results)) return res.results as User[];
+        if (Array.isArray(res?.data)) return res.data as User[];
+        return [];
+      })
+    );
   }
 
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.base}/${id}`);
+    return this.http.get<any>(`${this.baseUrl}/${id}`).pipe(
+      map(res => (res?.data ? res.data as User : (res as User)))
+    );
   }
 
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(this.base, user);
+  createUser(payload: User): Observable<User> {
+    return this.http.post<User>(this.baseUrl, payload);
   }
 
-  updateUser(id: number, user: User): Observable<User> {
-    return this.http.put<User>(`${this.base}/${id}`, user);
+  updateUser(id: number, payload: User): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/${id}`, payload);
   }
 
-  deleteUser(id: number): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${this.base}/${id}`);
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }
