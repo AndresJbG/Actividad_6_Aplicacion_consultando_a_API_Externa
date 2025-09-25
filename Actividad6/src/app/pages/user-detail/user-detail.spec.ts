@@ -23,8 +23,8 @@ describe('UserDetailComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        RouterTestingModule,         // mock de Router
-        UserDetailComponent          // componente standalone
+        RouterTestingModule,   
+        UserDetailComponent         
       ],
       providers: [
         { provide: UsersService, useValue: mockUsersService },
