@@ -1,66 +1,37 @@
-<h2 class="mb-4">{{ isEdit ? 'Actualizar usuario' : 'Nuevo usuario' }}</h2>
+<h1 class="mb-4">NUEVO USUARIO</h1>
 
-<form [formGroup]="form" (ngSubmit)="submit()" class="row g-3">
-  <div class="col-md-6">
-    <label class="form-label">Nombre</label>
-    <input type="text" class="form-control" formControlName="name">
-    <div class="text-danger" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
-      Requerido
-    </div>
+<form [formGroup]="form" (ngSubmit)="submit()" class="form-mock">
+  <div class="mb-4">
+    <label class="form-label mock-label">Nombre Usuario</label>
+    <input type="text" class="form-control mock-input" formControlName="name"
+           placeholder="Introduzca nombre de usuario">
+    <small class="text-danger" *ngIf="form.get('name')?.touched && form.get('name')?.invalid">Requerido</small>
   </div>
 
-  <div class="col-md-6">
-    <label class="form-label">Usuario</label>
-    <input type="text" class="form-control" formControlName="username">
-    <div class="text-danger" *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
-      Requerido
-    </div>
+  <div class="mb-4">
+    <label class="form-label mock-label">Apellido Usuario</label>
+    <input type="text" class="form-control mock-input" formControlName="lastname"
+           placeholder="Introduzca apellido de usuario">
+    <small class="text-danger" *ngIf="form.get('lastname')?.touched && form.get('lastname')?.invalid">Requerido</small>
   </div>
 
-  <div class="col-md-6">
-    <label class="form-label">Email</label>
-    <input type="email" class="form-control" formControlName="email">
-    <div class="text-danger" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+  <div class="mb-4">
+    <label class="form-label mock-label">Email Usuario</label>
+    <input type="email" class="form-control mock-input" formControlName="email"
+           placeholder="introduzca email de usuario">
+    <small class="text-danger" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
       Email válido requerido
-    </div>
+    </small>
   </div>
 
-  <div class="col-md-6">
-    <label class="form-label">Teléfono</label>
-    <input type="text" class="form-control" formControlName="phone">
+  <div class="mb-4">
+    <label class="form-label mock-label">Imagen Usuario</label>
+    <input type="text" class="form-control mock-input" formControlName="image"
+           placeholder="Introduzca url de foto usuario">
+    <small class="text-danger" *ngIf="form.get('image')?.touched && form.get('image')?.invalid">
+      Requerido (URL de imagen)
+    </small>
   </div>
 
-  <div class="col-md-6">
-    <label class="form-label">Website</label>
-    <input type="text" class="form-control" formControlName="website">
-  </div>
-
-  <div class="col-md-6">
-    <label class="form-label">URL Imagen</label>
-    <input type="text" class="form-control" formControlName="image" placeholder="https://.../foto.jpg">
-    <div class="text-danger" *ngIf="form.get('image')?.touched && form.get('image')?.invalid">
-      Requerido (usa una URL)
-    </div>
-  </div>
-
-  <!-- 👇 Grupo anidado address -->
-  <div formGroupName="address" class="row g-3">
-    <div class="col-md-6">
-      <label class="form-label">Calle</label>
-      <input type="text" class="form-control" formControlName="street">
-    </div>
-
-    <div class="col-md-6">
-      <label class="form-label">Ciudad</label>
-      <input type="text" class="form-control" formControlName="city">
-    </div>
-  </div>
-  <!-- 👆 fin address -->
-
-  <div class="col-12 d-flex gap-2">
-    <button class="btn btn-primary" type="submit">
-      {{ isEdit ? 'Actualizar' : 'Guardar' }}
-    </button>
-    <a class="btn btn-secondary" routerLink="/home">Cancelar</a>
-  </div>
+  <button class="btn btn-outline-dark px-4" type="submit">Guardar</button>
 </form>

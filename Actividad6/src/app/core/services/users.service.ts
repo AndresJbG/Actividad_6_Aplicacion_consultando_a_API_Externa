@@ -6,20 +6,20 @@ import { User } from '../models/users';
 @Injectable({ providedIn: 'root' })
 export class UsersService {
   private http = inject(HttpClient);
-  // La API del enunciado
-  private baseUrl = 'https://peticiones.online/users';
+  // API
+  private baseUrl = '/api/users';  // 👈 coincide EXACTO con el proxy
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<any>(this.baseUrl).pipe(
-      map(res => {
-        // La API puede responder como array directo o envuelto
-        if (Array.isArray(res)) return res as User[];
-        if (Array.isArray(res?.results)) return res.results as User[];
-        if (Array.isArray(res?.data)) return res.data as User[];
-        return [];
-      })
-    );
-  }
+getUsers(): Observable<User[]> {
+  return this.http.get<any>(this.baseUrl).pipe(
+    map(res => {
+      if (Array.isArray(res)) return res as User[];
+      if (Array.isArray(res?.results)) return res.results as User[];
+      if (Array.isArray(res?.data)) return res.data as User[];
+      return [];
+    })
+  );
+}
+
 
   getUser(id: number): Observable<User> {
     return this.http.get<any>(`${this.baseUrl}/${id}`).pipe(

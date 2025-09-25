@@ -1,20 +1,22 @@
-<h1 class="mb-4">Usuarios</h1>
+<h1 class="mb-4">Listado de usuarios</h1>
 
 <div *ngIf="loading" class="alert alert-info">Cargando...</div>
 
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" *ngIf="!loading">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" *ngIf="!loading">
   <div class="col" *ngFor="let u of users">
-    <div class="card h-100">
-      <img [src]="u.image || 'https://picsum.photos/400/300?random=' + u.id" class="card-img-top" alt="avatar">
+    <div class="card h-100 shadow-sm">
+      <img [src]="u.image || 'https://picsum.photos/600/400?random=' + u.id"
+           class="card-img-top home-card-img" alt="avatar">
       <div class="card-body">
         <h5 class="card-title mb-1">{{ u.name || (u.username || ('Usuario ' + u.id)) }}</h5>
-        <p class="text-muted mb-3">{{ u.email }}</p>
-        <div class="d-flex gap-2">
+        <p class="text-muted small mb-3">{{ u.email }}</p>
+        <div class="btn-group w-100" role="group">
           <button class="btn btn-outline-primary btn-sm" (click)="view(u.id)">Ver detalle</button>
-          <button class="btn btn-outline-warning btn-sm" (click)="edit(u.id)">Actualizar</button>
+          <a class="btn btn-outline-warning btn-sm" [routerLink]="['/updateuser', u.id]">Actualizar</a>
           <button class="btn btn-outline-danger btn-sm" (click)="remove(u.id)">Borrar</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
