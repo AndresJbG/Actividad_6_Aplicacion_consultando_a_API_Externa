@@ -1,7 +1,7 @@
 export interface User {
   id?: number;
   name: string;
-  lastname?: string;        // 👈 agregado para el mock
+  lastname?: string;      
   email: string;
   username?: string;
   phone?: string;

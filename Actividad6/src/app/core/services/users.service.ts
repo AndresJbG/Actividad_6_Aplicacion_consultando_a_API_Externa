@@ -7,7 +7,7 @@ import { User } from '../models/users';
 export class UsersService {
   private http = inject(HttpClient);
   // API
-  private baseUrl = '/api/users';  // 👈 coincide EXACTO con el proxy
+  private baseUrl = '/api/users';  
 
 getUsers(): Observable<User[]> {
   return this.http.get<any>(this.baseUrl).pipe(
